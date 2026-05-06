@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Y22mate - Free Video Downloader</title>
+<meta name="description" content="Y22mate - Fast, Free and Secure Video Downloader. Download videos from YouTube, TikTok, Instagram, Facebook and 1000+ sites in HD quality.">
+<meta name="keywords" content="y22mate, video downloader, youtube downloader, tiktok downloader, instagram downloader, free video download, HD video downloader">
+<meta property="og:title" content="Y22mate - Free Video Downloader">
+<meta property="og:description" content="Download videos from YouTube, TikTok, Instagram and 1000+ sites for free!">
+<meta name="robots" content="index, follow">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: #1a1005;
+  min-height: 100vh;
+  color: #f0d8a0;
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(180deg, #6a4010 0%, #3a2208 50%, #2a1808 100%);
+  border-bottom: 3px solid #c8860a;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(200,134,10,0.06) 3px, rgba(200,134,10,0.06) 4px);
+  pointer-events:none;
+}
+.header-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+.logo {
+  font-family:'Cinzel',serif;
+  font-size:30px;
+  font-weight:900;
+  background: linear-gradient(180deg, #f5d060 0%, #c8860a 50%, #f0c040 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+}
+.premium-btn {
+  background: linear-gradient(135deg, #8040c0, #5020a0);
+  border: 2px solid #a060e0;
+  border-radius: 8px;
+  padding: 7px 20px;
+  font-family:'Cinzel',serif;
+  font-size:16px;
+  font-weight:700;
+  color:#e0b0ff;
+  box-shadow: 0 0 18px rgba(128,64,192,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  cursor:pointer;
+  letter-spacing:1px;
+}
+
+/* URL BOX */
+.url-box {
+  background: linear-gradient(180deg, #f0ece0, #d8d0c0);
+  border: 2px solid #8a5a10;
+  border-radius: 10px;
+  display:flex;
+  align-items:center;
+  padding: 10px 14px;
+  gap:8px;
+  margin-bottom:12px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+}
+.url-input {
+  flex:1;
+  background:transparent;
+  border:none;
+  outline:none;
+  font-family:'Rajdhani',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  color:#2a1800;
+}
+.url-input::placeholder { color:#8a7060; }
+.link-icon { color:#8a5a10; font-size:20px; }
+
+/* THUMB + ANALYZE ROW */
+.thumb-analyze {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.thumb-box {
+  width:100px;
+  height:66px;
+  background: linear-gradient(135deg, #2a2a2a, #111);
+  border: 2px solid #8a5a10;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.thumb-box img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
+.thumb-placeholder { font-size:32px; opacity:0.4; }
+.analyze-btn {
+  flex:1;
+  background: linear-gradient(180deg, #9060d0 0%, #6030b0 50%, #4020a0 100%);
+  border: 2px solid #a070e0;
+  border-radius:28px;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  cursor:pointer;
+  box-shadow: 0 4px 20px rgba(80,48,160,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: all 0.15s;
+  position:relative;
+  overflow:hidden;
+}
+.analyze-btn::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:50%;
+  background: linear-gradient(180deg,rgba(255,255,255,0.15),transparent);
+  border-radius:26px 26px 0 0;
+}
+.analyze-btn:active { transform:scale(0.97); }
+.analyze-text {
+  font-family:'Cinzel',serif;
+  font-size:20px;
+  font-weight:700;
+  color:#f0d8ff;
+  letter-spacing:2px;
+}
+.analyze-circle {
+  width:34px;height:34px;
+  background: linear-gradient(135deg,#c080ff,#8040d0);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:white;
+  box-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
+
+/* MAIN BODY */
+.main {
+  padding:16px;
+}
+
+/* TAGLINE */
+.tagline {
+  text-align:center;
+  font-size:15px;
+  font-style:italic;
+  color:#c8a060;
+  margin-bottom:14px;
+  font-weight:600;
+  letter-spacing:0.5px;
+}
+
+/* QUALITY CARD */
+.quality-card {
+  background: linear-gradient(180deg, #5a3a10 0%, #3a2208 40%, #2a1a08 100%);
+  border: 2px solid #c8860a;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,200,80,0.15);
+}
+.quality-header {
+  padding:14px 18px 10px;
+  border-bottom:1px solid rgba(200,134,10,0.3);
+}
+.quality-title {
+  font-family:'Cinzel',serif;
+  font-size:20px;
+  font-weight:700;
+  color:#f5d060;
+  letter-spacing:1px;
+}
+
+/* FORMAT ROW */
+.format-row {
+  display:flex;
+  align-items:center;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(200,134,10,0.15);
+  gap:12px;
+  position:relative;
+  transition:background 0.15s;
+}
+.format-row:last-child { border-bottom:none; }
+.format-row:active { background:rgba(200,134,10,0.1); }
+
+/* Different row backgrounds */
+.format-row.hd720 { background:linear-gradient(90deg,rgba(180,120,30,0.2),rgba(150,90,20,0.1)); }
+.format-row.mp3 { background:linear-gradient(90deg,rgba(160,110,20,0.2),rgba(130,80,10,0.1)); }
+.format-row.hd1080 { background:linear-gradient(90deg,rgba(20,20,20,0.6),rgba(40,30,10,0.3)); }
+.format-row.flac { background:linear-gradient(90deg,rgba(140,100,15,0.2),rgba(110,70,10,0.1)); }
+.format-row.p360 { background:linear-gradient(90deg,rgba(100,80,40,0.2),rgba(80,60,20,0.1)); }
+
+.format-icon {
+  width:44px;height:44px;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  flex-shrink:0;
+  border:1px solid rgba(200,134,10,0.3);
+}
+.format-icon.video-ic { background:linear-gradient(135deg,#5a3a10,#3a2008); }
+.format-icon.audio-ic { background:linear-gradient(135deg,#4a3008,#2a1808); }
+
+.format-info { flex:1; }
+.format-name {
+  font-size:17px;
+  font-weight:700;
+  color:#f0d090;
+  display:block;
+}
+.format-sub {
+  font-size:13px;
+  color:#a08040;
+  font-weight:500;
+}
+
+.premium-tag {
+  position:absolute;
+  top:6px;right:110px;
+  background:linear-gradient(135deg,#c8a020,#a07010);
+  border-radius:4px;
+  padding:2px 8px;
+  font-size:10px;
+  font-weight:700;
+  color:#fff8e0;
+  letter-spacing:0.5px;
+}
+
+/* DOWNLOAD BUTTONS */
+.dl-btn {
+  border:none;
+  border-radius:8px;
+  padding:10px 14px;
+  font-family:'Rajdhani',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  min-width:100px;
+  text-align:center;
+  line-height:1.3;
+  flex-shrink:0;
+  transition:all 0.15s;
+  box-shadow:0 3px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.dl-btn:active { transform:scale(0.96); }
+
+.btn-teal {
+  background:linear-gradient(180deg,#2aaa98,#1a8a78,#108068);
+  color:#e0fff8;
+  border:1px solid #40c0a8;
+}
+.btn-blue {
+  background:linear-gradient(180deg,#3060d0,#2050b0,#1040a0);
+  color:#c0d8ff;
+  border:1px solid #4080e0;
+}
+.btn-brown {
+  background:linear-gradient(180deg,#c88030,#a06020,#805010);
+  color:#fff0d0;
+  border:1px solid #e0a040;
+}
+
+/* LOADING SPINNER */
+.loading {
+  text-align:center;
+  padding:30px;
+  display:none;
+}
+.spinner {
+  width:40px;height:40px;
+  border:3px solid rgba(200,134,10,0.3);
+  border-top:3px solid #c8860a;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+  margin:0 auto 12px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* BOTTOM FEATURES */
+.features {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:16px;
+  padding:14px 16px;
+  background:linear-gradient(180deg,#3a2208,#2a1808);
+  border:2px solid #c8860a;
+  border-radius:14px;
+}
+.feature-item {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  padding:10px 6px;
+  background:rgba(200,134,10,0.08);
+  border:1px solid rgba(200,134,10,0.2);
+  border-radius:10px;
+  cursor:pointer;
+  transition:background 0.15s;
+}
+.feature-item:active { background:rgba(200,134,10,0.2); }
+.feature-icon { font-size:22px; }
+.feature-text {
+  font-size:11px;
+  font-weight:700;
+  color:#c8a060;
+  text-align:center;
+  letter-spacing:0.3px;
+  line-height:1.2;
+}
+
+/* BOTTOM BAR */
+.bottom-bar {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  margin-top:16px;
+  background:linear-gradient(180deg,#2a1a08,#1a1005);
+  border:1px solid rgba(200,134,10,0.3);
+  border-radius:10px;
+  overflow:hidden;
+}
+.bottom-item {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  padding:10px 4px;
+  border-right:1px solid rgba(200,134,10,0.2);
+}
+.bottom-item:last-child { border-right:none; }
+.bottom-icon { font-size:18px; }
+.bottom-text {
+  font-size:10px;
+  font-weight:600;
+  color:#a08040;
+  text-align:center;
+  line-height:1.2;
+}
+
+/* FOOTER */
+.footer {
+  text-align:center;
+  padding:14px;
+  margin-top:12px;
+  color:#6a5030;
+  font-size:12px;
+  font-weight:600;
+  border-top:1px solid rgba(200,134,10,0.2);
+}
+.footer a { color:#8a6040; text-decoration:none; }
+
+/* PROGRESS BAR */
+.progress-wrap { display:none; padding:16px; }
+.progress-bar {
+  height:8px;
+  background:rgba(200,134,10,0.2);
+  border-radius:4px;
+  overflow:hidden;
+  margin-bottom:8px;
+}
+.progress-fill {
+  height:100%;
+  background:linear-gradient(90deg,#c8860a,#f5c040);
+  border-radius:4px;
+  width:0%;
+  transition:width 0.3s;
+  box-shadow:0 0 8px rgba(200,134,10,0.6);
+}
+.progress-text { text-align:center; font-size:13px; color:#c8a060; font-weight:600; }
+
+/* ERROR */
+.error-msg {
+  display:none;
+  background:rgba(200,40,40,0.15);
+  border:1px solid rgba(200,40,40,0.4);
+  border-radius:8px;
+  padding:12px 16px;
+  color:#ff8080;
+  font-size:13px;
+  font-weight:600;
+  margin-top:12px;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">Y22mate</div>
+    <button class="premium-btn">Premium</button>
+  </div>
+  <div class="url-box">
+    <span class="link-icon">🔗</span>
+    <input class="url-input" id="urlInput" type="text" placeholder="https://youtube.com/watch?v=...">
+  </div>
+  <div class="thumb-analyze">
+    <div class="thumb-box" id="thumbBox">
+      <span class="thumb-placeholder">▶</span>
+    </div>
+    <button class="analyze-btn" onclick="analyzeVideo()">
+      <span class="analyze-text">Analyze</span>
+      <div class="analyze-circle">➜</div>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="tagline">Fast. Free and Secure Video Downloads</div>
+
+  <!-- ERROR -->
+  <div class="error-msg" id="errorMsg"></div>
+
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div style="color:#c8a060;font-weight:700;font-size:15px;">Analyzing video...</div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Downloading... 0%</div>
+  </div>
+
+  <!-- QUALITY CARD -->
+  <div class="quality-card" id="qualityCard">
+    <div class="quality-header">
+      <span class="quality-title">Available Quality:</span>
+    </div>
+
+    <!-- 720p -->
+    <div class="format-row hd720">
+      <div class="format-icon video-ic">🎬</div>
+      <div class="format-info">
+        <span class="format-name">720p HD</span>
+        <span class="format-sub">MP4 · High Quality</span>
+      </div>
+      <button class="dl-btn btn-teal" onclick="downloadVideo('bestvideo[height<=720]+bestaudio/best','mp4','720p HD')">Download MP4<br>720p</button>
+    </div>
+
+    <!-- MP3 -->
+    <div class="format-row mp3">
+      <div class="format-icon audio-ic">🎵</div>
+      <div class="format-info">
+        <span class="format-name">MP3</span>
+        <span class="format-sub">320kbps · Audio</span>
+      </div>
+      <button class="dl-btn btn-teal" onclick="downloadVideo('bestaudio','mp3','MP3 320kbps')">Download<br>MP3</button>
+    </div>
+
+    <!-- 1080p -->
+    <div class="format-row hd1080">
+      <div class="format-icon video-ic" style="background:linear-gradient(135deg,#303030,#101010);">🎬</div>
+      <div class="format-info">
+        <span class="format-name" style="color:#d0c0ff;">1080p Ultra HD</span>
+        <span class="format-sub" style="color:#8070a0;">MP4 · Full HD</span>
+      </div>
+      <div class="premium-tag">Premium Only</div>
+      <button class="dl-btn btn-blue" onclick="downloadVideo('bestvideo[height<=1080]+bestaudio/best','mp4','1080p HD')">Download MP4<br>1080p</button>
+    </div>
+
+    <!-- FLAC -->
+    <div class="format-row flac">
+      <div class="format-icon audio-ic">🔊</div>
+      <div class="format-info">
+        <span class="format-name">FLAC</span>
+        <span class="format-sub">Lossless · Best Audio</span>
+      </div>
+      <button class="dl-btn btn-teal" onclick="downloadVideo('bestaudio','flac','FLAC Lossless')">Download<br>FLAC</button>
+    </div>
+
+    <!-- 360p -->
+    <div class="format-row p360">
+      <div class="format-icon video-ic" style="background:linear-gradient(135deg,#404040,#202020);">📱</div>
+      <div class="format-info">
+        <span class="format-name" style="color:#c0b090;">360p</span>
+        <span class="format-sub">Fast · Small Size</span>
+      </div>
+      <button class="dl-btn btn-brown" onclick="downloadVideo('bestvideo[height<=360]+bestaudio/best','mp4','360p')">Download MP4<br>360p</button>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features">
+    <div class="feature-item">
+      <span class="feature-icon">🔄</span>
+      <span class="feature-text">Format Conversion</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">☁️</span>
+      <span class="feature-text">Cloud Sync</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">⬇️</span>
+      <span class="feature-text">Batch Download</span>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="bottom-item">
+      <span class="bottom-icon">✅</span>
+      <span class="bottom-text">Safe &amp; Secure</span>
+    </div>
+    <div class="bottom-item">
+      <span class="bottom-icon">🚫</span>
+      <span class="bottom-text">Ad-Free</span>
+    </div>
+    <div class="bottom-item">
+      <span class="bottom-icon">⚡</span>
+      <span class="bottom-text">Fast Speed</span>
+    </div>
+    <div class="bottom-item">
+      <span class="bottom-icon">☁️</span>
+      <span class="bottom-text">Cloud Storage</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Designed by <strong style="color:#c8a060;">Elite Media Labs</strong><br>
+    <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+  </div>
+</div>
+
+<script>
+let currentURL = '';
+let videoData = null;
+
+function analyzeVideo() {
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) { showError('Please paste a video URL first!'); return; }
+  currentURL = url;
+  hideError();
+  showLoading(true);
+
+  fetch('/analyze', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({url})
+  })
+  .then(r => r.json())
+  .then(data => {
+    showLoading(false);
+    if (data.error) { showError(data.error); return; }
+    videoData = data;
+    if (data.thumbnail) {
+      document.getElementById('thumbBox').innerHTML = `<img src="${data.thumbnail}" onerror="this.parentNode.innerHTML='<span class=thumb-placeholder>▶</span>'">`;
+    }
+    document.getElementById('qualityCard').style.display = 'block';
+  })
+  .catch(e => { showLoading(false); showError('Connection error. Is server running?'); });
+}
+
+function downloadVideo(format, ext, label) {
+  if (!currentURL) { showError('Analyze a video first!'); return; }
+  showProgress(true);
+
+  // Simulate progress
+  let pct = 0;
+  const iv = setInterval(() => {
+    pct += Math.random() * 8 + 2;
+    if (pct > 90) pct = 90;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = 'Downloading... ' + Math.floor(pct) + '%';
+  }, 300);
+
+  fetch('/download', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({url: currentURL, format_id: format, ext, label})
+  })
+  .then(r => {
+    clearInterval(iv);
+    if (!r.ok) return r.json().then(d => { throw new Error(d.error); });
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressText').textContent = 'Download Complete! ✅';
+    return r.blob();
+  })
+  .then(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `y22mate_video.${ext}`;
+    a.click();
+    setTimeout(() => showProgress(false), 2000);
+  })
+  .catch(e => {
+    clearInterval(iv);
+    showProgress(false);
+    showError(e.message || 'Download failed!');
+  });
+}
+
+function showLoading(show) {
+  document.getElementById('loading').style.display = show ? 'block' : 'none';
+}
+function showProgress(show) {
+  document.getElementById('progressWrap').style.display = show ? 'block' : 'none';
+  if (!show) {
+    document.getElementById('progressFill').style.width = '0%';
+  }
+}
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+}
+function hideError() {
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+// Enter key support
+document.getElementById('urlInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') analyzeVideo();
+});
+</script>
+</body>
+</html>
