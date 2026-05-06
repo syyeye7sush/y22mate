@@ -10,6 +10,19 @@ CORS(app)
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
+YDL_BASE = {
+    'quiet': True,
+    'no_warnings': True,
+    'extractor_args': {
+        'youtube': {
+            'player_client': ['android'],
+        }
+    },
+    'http_headers': {
+        'User-Agent': 'com.google.android.youtube/17.31.35 (Linux; U; Android 11) gzip',
+    }
+}
+
 @app.route('/googleb0869499d662e38b.html')
 def google_verify():
     return send_file('googleb0869499d662e38b.html')
@@ -26,8 +39,8 @@ def analyze():
     if not url:
         return jsonify({'error': 'URL required'}), 400
     try:
-        ydl_opts = {'quiet': True, 'no_warnings': True}
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        opts = dict(YDL_BASE)
+        with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=False)
         return jsonify({
             'title': info.get('title', 'Video'),
@@ -49,49 +62,50 @@ def download():
     try:
         uid = str(int(time.time()))
         output_template = os.path.join(DOWNLOAD_FOLDER, f'{uid}.%(ext)s')
+        opts = dict(YDL_BASE)
         if 'mp3' in label.lower():
-            ydl_opts = {
+            opts.update({
                 'format': 'bestaudio/best',
                 'outtmpl': output_template,
                 'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '320'}],
-            }
+            })
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp3')
         elif 'flac' in label.lower():
-            ydl_opts = {
+            opts.update({
                 'format': 'bestaudio/best',
                 'outtmpl': output_template,
                 'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'flac'}],
-            }
+            })
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.flac')
         elif '1080' in label:
-            ydl_opts = {
-                'format': 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=1080]+bestaudio/best',
+            opts.update({
+                'format': 'bestvideo[height<=1080]+bestaudio/best',
                 'outtmpl': output_template,
                 'merge_output_format': 'mp4',
-            }
+            })
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         elif '720' in label:
-            ydl_opts = {
-                'format': 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=720]+bestaudio/best',
+            opts.update({
+                'format': 'bestvideo[height<=720]+bestaudio/best',
                 'outtmpl': output_template,
                 'merge_output_format': 'mp4',
-            }
+            })
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         elif '360' in label:
-            ydl_opts = {
-                'format': 'bestvideo[height<=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=360]+bestaudio/best',
+            opts.update({
+                'format': 'bestvideo[height<=360]+bestaudio/best',
                 'outtmpl': output_template,
                 'merge_output_format': 'mp4',
-            }
+            })
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         else:
-            ydl_opts = {
+            opts.update({
                 'format': 'bestvideo+bestaudio/best',
                 'outtmpl': output_template,
                 'merge_output_format': 'mp4',
-            }
+            })
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(opts) as ydl:
             ydl.download([url])
         return send_file(final_file, as_attachment=True, download_name=f'y22mate.{ext}')
     except Exception as e:
@@ -99,4 +113,3 @@ def download():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
-
