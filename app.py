@@ -10,7 +10,9 @@ CORS(app)
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
-@app.route('/')
+@app.route('/googleb0869499d662e38b.html')
+def google_verify():
+    return send_file('googleb0869499d662e38b.html')@app.route('/')
 def index():
     with open('index.html', 'r') as f:
         return f.read()
