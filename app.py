@@ -12,7 +12,9 @@ os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
 @app.route('/googleb0869499d662e38b.html')
 def google_verify():
-    return send_file('googleb0869499d662e38b.html')@app.route('/')
+    return send_file('googleb0869499d662e38b.html')
+
+@app.route('/')
 def index():
     with open('index.html', 'r') as f:
         return f.read()
@@ -42,14 +44,11 @@ def download():
     url = data.get('url', '')
     label = data.get('label', '')
     ext = data.get('ext', 'mp4')
-
     if not url:
         return jsonify({'error': 'URL required'}), 400
-
     try:
         uid = str(int(time.time()))
         output_template = os.path.join(DOWNLOAD_FOLDER, f'{uid}.%(ext)s')
-
         if 'mp3' in label.lower():
             ydl_opts = {
                 'format': 'bestaudio/best',
@@ -57,7 +56,6 @@ def download():
                 'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '320'}],
             }
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp3')
-
         elif 'flac' in label.lower():
             ydl_opts = {
                 'format': 'bestaudio/best',
@@ -65,7 +63,6 @@ def download():
                 'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'flac'}],
             }
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.flac')
-
         elif '1080' in label:
             ydl_opts = {
                 'format': 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=1080]+bestaudio/best',
@@ -73,7 +70,6 @@ def download():
                 'merge_output_format': 'mp4',
             }
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-
         elif '720' in label:
             ydl_opts = {
                 'format': 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=720]+bestaudio/best',
@@ -81,7 +77,6 @@ def download():
                 'merge_output_format': 'mp4',
             }
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-
         elif '360' in label:
             ydl_opts = {
                 'format': 'bestvideo[height<=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=360]+bestaudio/best',
@@ -89,7 +84,6 @@ def download():
                 'merge_output_format': 'mp4',
             }
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-
         else:
             ydl_opts = {
                 'format': 'bestvideo+bestaudio/best',
@@ -97,12 +91,9 @@ def download():
                 'merge_output_format': 'mp4',
             }
             final_file = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-
         return send_file(final_file, as_attachment=True, download_name=f'y22mate.{ext}')
-
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
