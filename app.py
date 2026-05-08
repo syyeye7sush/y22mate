@@ -21,7 +21,6 @@ def get_ydl_opts(label, output_template):
         'merge_output_format': 'mp4',
         'extractor_args': {'youtube': {'player_client': ['android']}},
         'http_headers': {'User-Agent': 'Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 Chrome/90.0.4430.91 Mobile Safari/537.36'},
-        'postprocessors': [{'key': 'FFmpegVideoRemuxer', 'preferedformat': 'mp4'}],
     }
     if 'mp3' in label.lower():
         base['format'] = 'bestaudio/best'
@@ -32,13 +31,13 @@ def get_ydl_opts(label, output_template):
         base['postprocessors'] = [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'flac'}]
         base.pop('merge_output_format', None)
     elif '1080' in label:
-        base['format'] = 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=1080]+bestaudio/best'
+        base['format'] = 'bestvideo[height<=1080]+bestaudio/best[height<=1080]/best'
     elif '720' in label:
-        base['format'] = 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=720]+bestaudio/best'
+        base['format'] = 'bestvideo[height<=720]+bestaudio/best[height<=720]/best'
     elif '360' in label:
-        base['format'] = 'bestvideo[height<=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=360]+bestaudio/best'
+        base['format'] = 'bestvideo[height<=360]+bestaudio/best[height<=360]/best'
     else:
-        base['format'] = 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best'
+        base['format'] = 'bestvideo+bestaudio/best'
     return base
 
 @app.route('/googleb0869499d662e38b.html')
