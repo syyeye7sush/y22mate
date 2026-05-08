@@ -10,10 +10,13 @@ CORS(app)
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
+COOKIES_FILE = os.path.join(os.path.dirname(__file__), 'cookies.txt')
+
 def get_ydl_opts(label, output_template):
     base = {
         'quiet': True,
         'no_warnings': True,
+        'cookiefile': COOKIES_FILE,
         'outtmpl': output_template,
         'merge_output_format': 'mp4',
         'extractor_args': {'youtube': {'player_client': ['android']}},
@@ -57,6 +60,7 @@ def analyze():
         opts = {
             'quiet': True,
             'no_warnings': True,
+            'cookiefile': COOKIES_FILE,
             'extractor_args': {'youtube': {'player_client': ['android']}},
             'http_headers': {'User-Agent': 'Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 Chrome/90.0.4430.91 Mobile Safari/537.36'},
         }
