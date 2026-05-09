@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 import time
 import requests
+import re
 
 app = Flask(__name__)
 CORS(app)
@@ -10,25 +11,18 @@ CORS(app)
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
-PIPED_INSTANCES = [
-    "https://pipedapi.kavin.rocks",
-    "https://piped-api.garudalinux.org",
-    "https://api.piped.projectsegfau.lt",
-    "https://pipedapi.tokhmi.xyz",
+INVIDIOUS_INSTANCES = [
+    "https://invidious.snopyta.org",
+    "https://yewtu.be",
+    "https://invidious.kavin.rocks",
+    "https://vid.puffyan.us",
+    "https://invidious.lunar.icu",
+    "https://inv.riverside.rocks",
+    "https://invidious.nerdvpn.de",
+    "https://invidious.privacydev.net",
 ]
 
-def get_piped_streams(video_id):
-    for instance in PIPED_INSTANCES:
-        try:
-            r = requests.get(f"{instance}/streams/{video_id}", timeout=10)
-            if r.status_code == 200:
-                return r.json()
-        except:
-            continue
-    return None
-
 def extract_video_id(url):
-    import re
     patterns = [
         r'(?:v=|/v/|youtu\.be/|/embed/|/shorts/)([a-zA-Z0-9_-]{11})',
     ]
@@ -37,6 +31,20 @@ def extract_video_id(url):
         if match:
             return match.group(1)
     return None
+
+def get_invidious_data(video_id):
+    for instance in INVIDIOUS_INSTANCES:
+        try:
+            r = requests.get(
+                f"{instance}/api/v1/videos/{video_id}",
+                timeout=10,
+                headers={'User-Agent': 'Mozilla/5.0'}
+            )
+            if r.status_code == 200:
+                return r.json(), instance
+        except:
+            continue
+    return None, None
 
 @app.route('/googleb0869499d662e38b.html')
 def google_verify():
@@ -57,13 +65,13 @@ def analyze():
         video_id = extract_video_id(url)
         if not video_id:
             return jsonify({'error': 'Invalid YouTube URL'}), 400
-        streams = get_piped_streams(video_id)
-        if not streams:
+        video_data, instance = get_invidious_data(video_id)
+        if not video_data:
             return jsonify({'error': 'Could not fetch video info'}), 500
         return jsonify({
-            'title': streams.get('title', 'Video'),
-            'thumbnail': streams.get('thumbnailUrl', ''),
-            'duration': streams.get('duration', 0),
+            'title': video_data.get('title', 'Video'),
+            'thumbnail': video_data.get('videoThumbnails', [{}])[0].get('url', ''),
+            'duration': video_data.get('lengthSeconds', 0),
             'platform': 'YouTube',
         })
     except Exception as e:
@@ -79,8 +87,8 @@ def download():
         return jsonify({'error': 'URL required'}), 400
     try:
         video_id = extract_video_id(url)
+
         if not video_id:
-            # Non-YouTube - use yt-dlp
             import yt_dlp
             uid = str(int(time.time()))
             output_template = os.path.join(DOWNLOAD_FOLDER, f'{uid}.%(ext)s')
@@ -102,21 +110,22 @@ def download():
                     break
             return send_file(final_file, as_attachment=True, download_name=f'y22mate.{ext}')
 
-        # YouTube - use Piped
-        streams = get_piped_streams(video_id)
-        if not streams:
-            return jsonify({'error': 'Could not fetch streams'}), 500
+        video_data, instance = get_invidious_data(video_id)
+        if not video_data:
+            return jsonify({'error': 'Could not fetch video'}), 500
 
-        download_url = None
+        adaptive_formats = video_data.get('adaptiveFormats', [])
+        format_streams = video_data.get('formatStreams', [])
 
         if 'mp3' in label.lower() or 'flac' in label.lower():
-            audio_streams = streams.get('audioStreams', [])
-            if audio_streams:
-                audio_streams.sort(key=lambda x: x.get('bitrate', 0), reverse=True)
-                download_url = audio_streams[0].get('url')
+            audio_formats = [f for f in adaptive_formats if f.get('type', '').startswith('audio')]
+            audio_formats.sort(key=lambda x: x.get('bitrate', 0), reverse=True)
+            if audio_formats:
+                download_url = audio_formats[0].get('url')
                 ext = 'mp3'
+            else:
+                return jsonify({'error': 'No audio found'}), 500
         else:
-            video_streams = streams.get('videoStreams', [])
             if '1080' in label:
                 target = 1080
             elif '720' in label:
@@ -126,30 +135,32 @@ def download():
             else:
                 target = 1080
 
-            # Find best matching quality
-            mp4_streams = [s for s in video_streams if 'mp4' in s.get('mimeType', '').lower() and s.get('videoOnly', False) == False]
-            if not mp4_streams:
-                mp4_streams = [s for s in video_streams if s.get('videoOnly', False) == False]
-
-            if mp4_streams:
-                best = min(mp4_streams, key=lambda x: abs(x.get('height', 0) - target))
+            combined = [f for f in format_streams if f.get('type', '').startswith('video')]
+            if combined:
+                best = min(combined, key=lambda x: abs(int(x.get('resolution', '0p').replace('p','')) - target))
                 download_url = best.get('url')
-            elif video_streams:
-                best = min(video_streams, key=lambda x: abs(x.get('height', 0) - target))
-                download_url = best.get('url')
+            else:
+                video_formats = [f for f in adaptive_formats if f.get('type', '').startswith('video')]
+                video_formats = [f for f in video_formats if 'mp4' in f.get('type', '')]
+                if video_formats:
+                    best = min(video_formats, key=lambda x: abs(x.get('height', 0) - target))
+                    download_url = best.get('url')
+                else:
+                    return jsonify({'error': 'No video found'}), 500
 
         if not download_url:
-            return jsonify({'error': 'No stream found'}), 500
+            return jsonify({'error': 'No download URL'}), 500
 
         uid = str(int(time.time()))
         filepath = os.path.join(DOWNLOAD_FOLDER, f'{uid}.{ext}')
 
-        r = requests.get(download_url, stream=True, timeout=60, headers={
+        r = requests.get(download_url, stream=True, timeout=120, headers={
             'User-Agent': 'Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36'
         })
         with open(filepath, 'wb') as f:
             for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
+                if chunk:
+                    f.write(chunk)
 
         return send_file(filepath, as_attachment=True, download_name=f'y22mate.{ext}')
 
