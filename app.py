@@ -10,6 +10,7 @@ os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 YDL_BASE = {
     'quiet': True,
     'no_warnings': True,
+    'cookiefile': 'cookies.txt',
     'http_headers': {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     }
@@ -81,3 +82,4 @@ def download():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
+
