@@ -56,22 +56,22 @@ def download():
         out = os.path.join(DOWNLOAD_FOLDER, f'{uid}.%(ext)s')
         opts = dict(YDL_BASE)
         if 'mp3' in label.lower():
-            opts.update({'format':'bestaudio/best','outtmpl':out,'postprocessors':[{'key':'FFmpegExtractAudio','preferredcodec':'mp3','preferredquality':'320'}]})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp3')
+            opts.update({'format':'bestaudio[ext=m4a]/bestaudio','outtmpl':out})
+            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.m4a')
         elif 'flac' in label.lower():
-            opts.update({'format':'bestaudio/best','outtmpl':out,'postprocessors':[{'key':'FFmpegExtractAudio','preferredcodec':'flac'}]})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.flac')
+            opts.update({'format':'bestaudio[ext=m4a]/bestaudio','outtmpl':out})
+            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.m4a')
         elif '1080' in label:
-            opts.update({'format':'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=1080]+bestaudio/best[height<=1080]','outtmpl':out,'merge_output_format':'mp4'})
+            opts.update({'format':'best[height<=1080][ext=mp4]/best[height<=1080]/best','outtmpl':out})
             final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         elif '720' in label:
-            opts.update({'format':'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=720]+bestaudio/best[height<=720]','outtmpl':out,'merge_output_format':'mp4'})
+            opts.update({'format':'best[height<=720][ext=mp4]/best[height<=720]/best','outtmpl':out})
             final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         elif '360' in label:
-            opts.update({'format':'bestvideo[height<=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=360]+bestaudio/best[height<=360]','outtmpl':out,'merge_output_format':'mp4'})
+            opts.update({'format':'best[height<=360][ext=mp4]/best[height<=360]/best','outtmpl':out})
             final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         else:
-            opts.update({'format':'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best','outtmpl':out,'merge_output_format':'mp4'})
+            opts.update({'format':'best[ext=mp4]/best','outtmpl':out})
             final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         with yt_dlp.YoutubeDL(opts) as ydl:
             ydl.download([url])
