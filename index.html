@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y22mate Premium Downloader</title>
+    <meta name="description" content="Y22mate - Fast, Free and Secure Video Downloader">
+    <meta name="robots" content="index, follow">
+    <style>
+        :root {
+            --app-bg-texture: url("data:image/png;base64,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");
+            --gold-frame-border: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAACvCAMAAAC4wZ9pAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF///w5ubmo4M41wAAAAJ0Uk5TcM798msAAAIuSURBVHja7N3bctpAEEVR9v//cueBwZisbUnYInVunYfU0gXwAnZGAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA/WeZ6n0Ww268z77H6/z9t6sWzW0Yf20fV63ffzWf99gq7P+/6e7/Z960I53bUfDqD37Zf2W9XWulDuWw/tLpXWe7bZ8xH0Y6gAun7bOuhgPbbT6SLoZzudDpdC60Y70/eF9S7Wf8X6ofXF83V6Afrf8XF7I/1v+fX78/WvO9Z/x/px+7l+vX7Yfgn6u9ZP269Bf9f6XfudNfX5W");
+            --gold-plate-3d: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZGxAAAAMCAMAAABnbfpRAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77uMfiIgaWQ9Ilc1TTBNcENlaGlIenJlU3pNTGN0Y3pjZCI/Pg==");
+            --blue-btn-3d: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAAAoCAYAAAAQ04S3AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77uMfiIgaWQ9Ilc1TTBNcENlaGlIenJlU3pNTGN0Y3pjZCI/Pg==");
+            --red-btn-3d: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAoCAYAAAA9ufgGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77uMfiIgaWQ9Ilc1TTBNcENlaGlIenJlU3pNTGN0Y3pjZCI/Pg==");
+        }
+
+        *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;}
+
+        body{background:#050507;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:15px;}
+
+        .phone-container{width:100%;max-width:412px;background-color:#0b0c10;background-image:var(--app-bg-texture);background-size:cover;border:6px solid #2d2e38;border-radius:38px;padding:16px;box-shadow:0 25px 65px rgba(0,0,0,0.95);}
+
+        .header-top-plate{display:flex;justify-content:space-between;align-items:center;background-image:var(--gold-plate-3d);background-size:100% 100%;background-repeat:no-repeat;background-color:#3a2e22;padding:0 22px;height:62px;margin-bottom:16px;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,0.6);}
+
+        .brand-logo{font-size:26px;font-weight:900;color:#edd1b6;text-shadow:2px 2px 2px #000;letter-spacing:0.5px;}
+
+        .premium-badge{background:linear-gradient(180deg,#ffe2c4 0%,#a68365 100%);border:1px solid #fff;border-radius:12px;padding:4px 15px;font-size:11px;font-weight:bold;color:#1a130f;text-transform:uppercase;box-shadow:0 2px 5px rgba(0,0,0,0.4);cursor:pointer;}
+
+        .search-area{background:linear-gradient(180deg,#1e2029 0%,#0d0e12 100%);border:2px solid #333642;border-radius:16px;padding:14px;margin-bottom:15px;box-shadow:0 5px 12px rgba(0,0,0,0.6);}
+
+        .url-input{width:100%;background:#050608;border:1px solid #3f4252;border-radius:8px;padding:11px;color:#a4a8b7;font-size:13px;outline:none;box-shadow:inset 0 3px 5px rgba(0,0,0,0.8);margin-bottom:12px;}
+        .url-input::placeholder{color:#3f4252;}
+
+        .action-row{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+
+        .video-thumb{width:70px;height:46px;background:linear-gradient(180deg,#222 0%,#0a0a0a 100%);border:1.5px solid #333;border-radius:8px;display:flex;justify-content:center;align-items:center;flex-shrink:0;overflow:hidden;}
+        .video-thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px;}
+        .thumb-ph{color:#ff1e1e;font-size:18px;}
+
+        .analyze-btn{flex:1;background-image:var(--blue-btn-3d);background-size:100% 100%;background-repeat:no-repeat;background-color:#224cb3;border:2px solid #6ba4ff;border-radius:20px;height:44px;color:white;font-weight:900;font-size:14px;cursor:pointer;text-shadow:1px 1px 2px rgba(0,0,0,0.8);box-shadow:0 4px 10px rgba(34,76,179,0.5);display:flex;justify-content:center;align-items:center;transition:transform 0.1s;}
+        .analyze-btn:active{transform:scale(0.97);}
+
+        .tagline{text-align:center;font-size:12px;color:#cbb29b;margin-bottom:12px;font-weight:bold;text-shadow:1px 1px 1px #000;}
+
+        .error-msg{display:none;background:rgba(200,40,40,0.15);border:1px solid rgba(200,40,40,0.4);border-radius:8px;padding:10px 14px;color:#ff8080;font-size:13px;font-weight:600;margin-bottom:10px;text-align:center;}
+
+        .loading{display:none;text-align:center;padding:20px;}
+        .spinner{width:36px;height:36px;border:3px solid rgba(200,134,10,0.3);border-top:3px solid #c8860a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 10px;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+
+        .progress-wrap{display:none;padding:0 0 10px;}
+        .progress-bar{height:6px;background:rgba(200,134,10,0.2);border-radius:3px;overflow:hidden;margin-bottom:6px;}
+        .progress-fill{height:100%;background:linear-gradient(90deg,#c8860a,#f5c040);border-radius:3px;width:0%;transition:width 0.3s;}
+        .progress-text{text-align:center;font-size:12px;color:#c8a060;font-weight:600;}
+
+        .quality-section-wrapper{background-image:var(--gold-frame-border);background-size:100% 100%;background-repeat:no-repeat;background-color:rgba(0,0,0,0.6);padding:16px 14px;border-radius:22px;border:2px solid #8a6a3a;box-shadow:inset 0 0 15px rgba(0,0,0,0.8);}
+
+        .section-title{font-size:16px;color:#ebd1b6;margin-bottom:12px;font-weight:900;text-shadow:1px 1px 2px #000;}
+
+        .quality-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin-bottom:10px;border-radius:12px;border:2px solid #111;box-shadow:inset 0 1px 2px rgba(255,255,255,0.15),0 4px 6px rgba(0,0,0,0.5);position:relative;transition:opacity 0.15s;}
+        .quality-row:last-child{margin-bottom:0;}
+        .quality-row:active{opacity:0.9;}
+
+        .row-720p{background:linear-gradient(180deg,#9ca0a8 0%,#54575f 50%,#313338 100%);border-color:#cacdda;}
+        .row-mp3{background:linear-gradient(180deg,#cca473 0%,#705b38 50%,#42351f 100%);border-color:#ebd0aa;}
+        .row-1080p{background:linear-gradient(180deg,#4b4f57 0%,#212327 50%,#111214 100%);border-color:#686e78;}
+        .row-flac{background:linear-gradient(180deg,#ad7e6c 0%,#5e3f32 50%,#38241d 100%);border-color:#cf9f8c;}
+        .row-360p{background:linear-gradient(180deg,#8f8075 0%,#4a4037 50%,#2b241f 100%);border-color:#b0a094;}
+
+        .meta-text{display:flex;flex-direction:column;}
+        .title-main{font-size:15px;font-weight:800;color:#fff;text-shadow:1px 1px 2px #000;}
+        .row-mp3 .title-main{color:#fff2db;}
+        .row-1080p .title-main{color:#ffbaba;}
+        .title-sub{font-size:11px;color:#e5e7f0;text-shadow:1px 1px 1px #000;}
+
+        .dl-btn{padding:8px 12px;border-radius:8px;font-size:11px;font-weight:bold;cursor:pointer;text-transform:uppercase;box-shadow:0 3px 6px rgba(0,0,0,0.4),inset 0 1px 1px rgba(255,255,255,0.2);text-shadow:1px 1px 1px rgba(0,0,0,0.5);min-width:115px;text-align:center;line-height:1.4;transition:all 0.15s;}
+        .dl-btn:active{transform:scale(0.95);}
+
+        .dl-blue{background:linear-gradient(180deg,#385a82 0%,#192a3d 100%);border:1.5px solid #5784ba;color:#fff;}
+        .dl-gold{background:linear-gradient(180deg,#27282c 0%,#111214 100%);border:2px solid #ffd075;color:#ffd075;}
+        .dl-red{background-image:var(--red-btn-3d);background-size:100% 100%;background-color:#9e0018;border:1.5px solid #ff7089;color:#ffd4d4;}
+        .dl-green{background:linear-gradient(180deg,#27573a 0%,#11261a 100%);border:1.5px solid #418f5e;color:#fff;}
+        .dl-bronze{background:linear-gradient(180deg,#704730 0%,#382115 100%);border:1.5px solid #a67050;color:#fff;}
+
+        .prem-badge{position:absolute;top:-7px;right:120px;background:linear-gradient(180deg,#ff3657 0%,#9e0018 100%);color:white;font-size:8px;padding:2px 7px;border-radius:4px;font-weight:bold;border:1px solid #ff7089;text-transform:uppercase;}
+
+        .bottom-navbar{display:flex;justify-content:space-between;background:linear-gradient(180deg,#3a322d 0%,#171311 100%);border:2px solid #54463e;border-radius:12px;margin-top:15px;padding:10px 6px;box-shadow:0 4px 10px rgba(0,0,0,0.6);}
+        .nav-link{flex:1;text-align:center;color:#dfc3a7;font-size:11px;font-weight:bold;text-shadow:1px 1px 1px #000;}
+
+        .footer-branding{text-align:center;margin-top:15px;font-size:11px;color:#726c66;line-height:1.5;}
+    </style>
+</head>
+<body>
+
+<div class="phone-container">
+
+    <div class="header-top-plate">
+< truncated lines 99-115 >
+        <div style="color:#c8a060;font-weight:700;font-size:14px;">Analyzing video...</div>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">Downloading... 0%</div>
+    </div>
+
+    <div class="quality-section-wrapper">
+        <div class="section-title">Available Quality:</div>
+
+        <div class="quality-row row-720p">
+            <div class="meta-text">
+                <span class="title-main">720p HD</span>
+                <span class="title-sub">MP4 Video</span>
+            </div>
+            <button class="dl-btn dl-blue" onclick="downloadVideo('mp4','720p HD')">Download MP4<br>720p</button>
+        </div>
+
+        <div class="quality-row row-mp3">
+            <div class="meta-text">
+                <span class="title-main">MP3 320kbps</span>
+                <span class="title-sub">High Audio Quality</span>
+            </div>
+            <button class="dl-btn dl-gold" onclick="downloadVideo('mp3','MP3 320kbps')">Download<br>MP3</button>
+        </div>
+
+        <div class="quality-row row-1080p">
+            <div class="prem-badge">Premium Only</div>
+            <div class="meta-text">
+                <span class="title-main">1080p Ultra HD</span>
+                <span class="title-sub">High Definition Video</span>
+            </div>
+            <button class="dl-btn dl-red" onclick="downloadVideo('mp4','1080p HD')">Download MP4<br>1080p</button>
+        </div>
+
+        <div class="quality-row row-flac">
+            <div class="meta-text">
+                <span class="title-main">FLAC Lossless</span>
+                <span class="title-sub">Studio Master Audio</span>
+            </div>
+            <button class="dl-btn dl-green" onclick="downloadVideo('flac','FLAC Lossless')">Download<br>FLAC</button>
+        </div>
+
+        <div class="quality-row row-360p">
+            <div class="meta-text">
+                <span class="title-main">360p Fast</span>
+                <span class="title-sub">Standard Quality</span>
+            </div>
+            <button class="dl-btn dl-bronze" onclick="downloadVideo('mp4','360p')">Download MP4<br>360p</button>
+        </div>
+    </div>
+
+    <div class="bottom-navbar">
+        <div class="nav-link">🔄 Conversion</div>
+        <div class="nav-link">☁️ Cloud Sync</div>
+        <div class="nav-link">📥 Batch DL</div>
+    </div>
+
+    <div class="footer-branding">
+        <p>Designed by <strong>Elite Media Labs</strong></p>
+        <p>Safe & Secure | Ad-Free | Cloud Storage</p>
+        <p style="color:#4a4540;margin-top:4px;">Privacy Policy | Terms of Service</p>
+    </div>
+
+</div>
+
+<script>
+let currentURL='';
+function analyzeVideo(){
+    const url=document.getElementById('urlInput').value.trim();
+    if(!url){showError('Please paste a video URL first!');return;}
+    currentURL=url;hideError();showLoading(true);
+    fetch('/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})})
+    .then(r=>r.json())
+    .then(data=>{
+        showLoading(false);
+        if(data.error){showError(data.error);return;}
+        if(data.thumbnail){document.getElementById('thumbBox').innerHTML=`<img src="${data.thumbnail}" onerror="this.parentNode.innerHTML='<span class=thumb-ph>▶</span>'">`;}
+    })
+    .catch(e=>{showLoading(false);showError('Connection error!');});
+}
+function downloadVideo(ext,label){
+    if(!currentURL){showError('Analyze a video first!');return;}
+    showProgress(true);let pct=0;
+    const iv=setInterval(()=>{pct+=Math.random()*6+2;if(pct>90)pct=90;document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressText').textContent='Downloading... '+Math.floor(pct)+'%';},400);
+    fetch('/download',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:currentURL,ext,label})})
+    .then(r=>{clearInterval(iv);if(!r.ok)return r.json().then(d=>{throw new Error(d.error);});document.getElementById('progressFill').style.width='100%';document.getElementById('progressText').textContent='Download Complete! ✅';return r.blob();})
+    .then(blob=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`y22mate.${ext}`;a.click();setTimeout(()=>showProgress(false),2500);})
+    .catch(e=>{clearInterval(iv);showProgress(false);showError(e.message||'Download failed!');});
+}
+function showLoading(s){document.getElementById('loading').style.display=s?'block':'none';}
+function showProgress(s){document.getElementById('progressWrap').style.display=s?'block':'none';if(!s)document.getElementById('progressFill').style.width='0%';}
+function showError(m){const el=document.getElementById('errorMsg');el.textContent='⚠️ '+m;el.style.display='block';}
+function hideError(){document.getElementById('errorMsg').style.display='none';}
+document.getElementById('urlInput').addEventListener('keypress',function(e){if(e.key==='Enter')analyzeVideo();});
+</script>
+</body>
+</html>
