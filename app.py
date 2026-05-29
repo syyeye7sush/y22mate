@@ -11,6 +11,7 @@ YDL_BASE = {
     'quiet': True,
     'no_warnings': True,
     'cookiefile': 'cookies.txt',
+    'format': 'best[ext=mp4]/best',
     'http_headers': {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     }
@@ -48,7 +49,6 @@ def analyze():
 def download():
     data = request.json
     url = data.get('url', '')
-    label = data.get('label', '')
     ext = data.get('ext', 'mp4')
     if not url:
         return jsonify({'error': 'URL required'}), 400
@@ -56,24 +56,8 @@ def download():
         uid = str(int(time.time()))
         out = os.path.join(DOWNLOAD_FOLDER, f'{uid}.%(ext)s')
         opts = dict(YDL_BASE)
-        if 'mp3' in label.lower():
-            opts.update({'format':'bestaudio[ext=m4a]/bestaudio','outtmpl':out})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.m4a')
-        elif 'flac' in label.lower():
-            opts.update({'format':'bestaudio[ext=m4a]/bestaudio','outtmpl':out})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.m4a')
-        elif '1080' in label:
-            opts.update({'format':'best[height<=1080][ext=mp4]/best[height<=1080]/best','outtmpl':out})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-        elif '720' in label:
-            opts.update({'format':'best[height<=720][ext=mp4]/best[height<=720]/best','outtmpl':out})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-        elif '360' in label:
-            opts.update({'format':'best[height<=360][ext=mp4]/best[height<=360]/best','outtmpl':out})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
-        else:
-            opts.update({'format':'best[ext=mp4]/best','outtmpl':out})
-            final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
+        opts['outtmpl'] = out
+        final = os.path.join(DOWNLOAD_FOLDER, f'{uid}.mp4')
         with yt_dlp.YoutubeDL(opts) as ydl:
             ydl.download([url])
         return send_file(final, as_attachment=True, download_name=f'y22mate.{ext}')
@@ -81,5 +65,4 @@ def download():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
-
+    app.run(host='0.0.0.0', port=5000, debug=False
