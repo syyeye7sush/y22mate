@@ -7,24 +7,24 @@ CORS(app)
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
-# Cookie file ko environment variable se banao
-COOKIE_DATA = os.environ.get('COOKIE_DATA', '')
-COOKIE_FILE = '/tmp/yt_cookies.txt'
-if COOKIE_DATA:
-    with open(COOKIE_FILE, 'w') as f:
-        f.write(COOKIE_DATA)
-
 YDL_BASE = {
     'quiet': True,
     'no_warnings': True,
-    'format': 'best[ext=mp4]/best',
+    'format': 'best[ext=mp4][height<=720]/best[ext=mp4]/best',
     'http_headers': {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    }
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    },
+    'extractor_args': {
+        'youtube': {
+            'skip': ['dash', 'hls'],
+            'player_client': ['web', 'android'],
+        }
+    },
+    'socket_timeout': 30,
+    'retries': 3,
 }
-
-if COOKIE_DATA:
-    YDL_BASE['cookiefile'] = COOKIE_FILE
 
 @app.route('/googleb0869499d662e38b.html')
 def google_verify():
@@ -74,6 +74,5 @@ def download():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
-o
-
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
